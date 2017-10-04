@@ -28,4 +28,12 @@ class Reading < ActiveRecord::Base
   def datetime_sql_insert(date, time)
     date + ' ' + time
   end
+
+  def date
+    reading_date_time.strftime("%Y-%m-%d")
+  end
+
+  def time
+    reading_date_time.strftime("%I:%M")
+  end
 end
