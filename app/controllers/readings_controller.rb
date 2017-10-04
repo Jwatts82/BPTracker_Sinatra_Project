@@ -90,6 +90,10 @@ class ReadingsController < ApplicationController
   get "/readings/:id/edit" do
     @reading = Reading.find(params[:id])
 
+    @date = @reading.date
+
+    @time = @reading.time
+    
     erb :"/readings/edit"
   end
 end
