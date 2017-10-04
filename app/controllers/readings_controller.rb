@@ -19,14 +19,19 @@ class ReadingsController < ApplicationController
     reading = Reading.new
 
     v = params.select {|k,v| v unless k == 'content' }
-    if reading.emtpy_input?(v)
+    if !reading.emtpy_input?(v) &&
+       reading.category_selector(params[:systolic], params[:diastolic])
+       reading.systolic = params[:systolic]
+      reading.diastolic = params[:diastolic]
+      reading.pulse = params[:pulse]
+      reading.person_id = user.person_id
+
+      redirect "/readings/#{reading.id}"
+    else
       flash[:message] = 'Some required information is missing or your BP ' \
                         'reading is not possible. Please review your input.'
 
        erb :'readings/new'
-    else
-      # create reading & comment objects
-      redirect "/readings/#{reading.id}"
     end
   end
 end
