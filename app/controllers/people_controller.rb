@@ -36,6 +36,8 @@ class PeopleController < ApplicationController
 
       @user = User.find(session[:u_id])
 
+      @date = @person.date
+
       erb :'/people/show'
     else
       redirect '/'

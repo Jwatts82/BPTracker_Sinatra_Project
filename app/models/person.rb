@@ -12,4 +12,8 @@ class Person < ActiveRecord::Base
     now.year - dob.year - ((now.month > dob.month || (now.month == dob.month &&
                                                   now.day >= dob.day)) ? 0 : 1)
   end
+
+  def date
+    dob.to_date.strftime("%m/%d/%Y")
+  end
 end
