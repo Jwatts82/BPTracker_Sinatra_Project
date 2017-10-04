@@ -93,7 +93,28 @@ class ReadingsController < ApplicationController
     @date = @reading.date
 
     @time = @reading.time
-    
+
     erb :"/readings/edit"
   end
+
+  post "/readings/:id" do
+  @reading = Reading.find(params[:id])
+
+  v = params.select {|k,v| v unless k == 'content' }
+  if !@reading.emtpy_input?(v)
+    # update reading and comment objects
+    
+    flash[:message] = 'Your updated was successful!'
+
+    redirect "/readings/show"
+  else
+    flash[:message] = 'Some required information is missing or your BP ' \
+                      'reading is not possible. Please review your input.'
+
+    @date = params[:date]
+    @time = params[:time]
+    erb :"/readings/edit"
+  end
+end
+
 end
