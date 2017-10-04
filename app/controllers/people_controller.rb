@@ -79,4 +79,13 @@ class PeopleController < ApplicationController
       erb :'people/show'
     end
   end
+
+  delete '/people/:id/delete' do
+    person = Person.find(params[:id])
+
+    session.clear
+    person.destroy
+
+    redirect '/'
+  end
 end

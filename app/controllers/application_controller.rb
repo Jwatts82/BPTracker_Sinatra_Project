@@ -11,6 +11,8 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
+    @deleted_message = "Your account has been deleted." if session[:u_id].nil?
+
     erb :welcome
   end
 
