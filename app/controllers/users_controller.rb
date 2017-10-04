@@ -20,4 +20,8 @@ class UsersController < ApplicationController
       redirect '/people/new'
     end
   end
+
+  get '/login' do
+    erb :'users/login'
+end
 end
