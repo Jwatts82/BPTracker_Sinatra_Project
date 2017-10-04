@@ -101,11 +101,26 @@ class ReadingsController < ApplicationController
   @reading = Reading.find(params[:id])
 
   v = params.select {|k,v| v unless k == 'content' }
-  if !@reading.emtpy_input?(v)
-    # update reading and comment objects
+  if !@reading.emtpy_input?(v) &&
+      @reading.category_selector(params[:systolic], params[:diastolic])
+    @reading.systolic = params[:systolic]
+    @reading.diastolic = params[:diastolic]
+    @reading.pulse = params[:pulse]
+
+    datetime = @reading.datetime_sql_insert(params[:date], params[:time])
+    @reading.reading_date_time = datetime
+
+    grp = @reading.category_selector(params[:systolic], params[:diastolic])
+    @reading.category = grp
+
+    Comment.find(@reading.comments.ids).each do |comment|
+      comment.update(content: params[:content]) unless params[:content].empty?
+    end
+
+    @reading.save
     flash[:message] = 'Your updated was successful!'
 
-    redirect "/readings/show"
+    redirect "/readings/#{@reading.id}"
   else
     flash[:message] = 'Some required information is missing or your BP ' \
                       'reading is not possible. Please review your input.'
