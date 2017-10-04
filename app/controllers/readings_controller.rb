@@ -86,4 +86,10 @@ class ReadingsController < ApplicationController
       redirect '/'
     end
   end
+
+  get "/readings/:id/edit" do
+    @reading = Reading.find(params[:id])
+
+    erb :"/readings/edit"
+  end
 end
