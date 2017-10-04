@@ -1,6 +1,14 @@
 class ReadingsController < ApplicationController
 
   get '/readings' do
+    @user = User.find(session[:u_id])
+
+    readings = Reading.order('reading_date_time')
+
+    @u_readings = readings.select do |reading|
+      reading.person_id == @user.person_id
+    end
+    
     erb :'readings/index'
   end
 
@@ -56,7 +64,7 @@ class ReadingsController < ApplicationController
       @date = @reading.reading_date_time.strftime("%m/%d/%Y")
 
       @time = @reading.reading_date_time.strftime("%I:%M%p")
-      
+
       erb :"/readings/show"
     else
       redirect '/'
