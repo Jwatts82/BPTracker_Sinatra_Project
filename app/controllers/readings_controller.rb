@@ -51,6 +51,12 @@ class ReadingsController < ApplicationController
 
   get '/readings/:id' do
     if logged_in?
+      @reading = Reading.find(params[:id])
+
+      @date = @reading.reading_date_time.strftime("%m/%d/%Y")
+
+      @time = @reading.reading_date_time.strftime("%I:%M%p")
+      
       erb :"/readings/show"
     else
       redirect '/'
