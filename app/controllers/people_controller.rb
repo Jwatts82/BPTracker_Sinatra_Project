@@ -15,13 +15,30 @@ class PeopleController < ApplicationController
                          ' Please correct your entries and try again.'
        erb :'people/new'
     else
-      # create new person object
-      
+      person.first_name = params[:first_name]
+      person.last_name = params[:last_name]
+      person.dob = params[:dob]
+      person.age = person.age_calculator(params[:dob].to_date)
+      person.save
+
+      user = User.find(session[:u_id])
+      user.person = person
+
+      user.save
+
       redirect "/people/#{person.id}"
     end
   end
 
   get '/people/:id' do
-    logged_in? ? (erb :'/people/show') : (redirect '/')
+    if logged_in?
+      @person = Person.find(params[:id])
+
+      @user = User.find(session[:u_id])
+
+      erb :'/people/show'
+    else
+      redirect '/'
+    end
   end
 end
