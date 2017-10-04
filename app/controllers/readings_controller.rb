@@ -85,7 +85,14 @@ class ReadingsController < ApplicationController
 
       @time = @reading.reading_date_time.strftime("%I:%M%p")
 
-      erb :'/readings/show'
+      if @reading.person_id == current_user.person_id
+        erb :'/readings/show'
+      else
+        flash[:message] = "You don't have permission to access this reading."
+
+        redirect '/readings?error=You do not have permission to access ' \
+                 'that reading.'
+      end
     else
       redirect '/'
     end
@@ -145,6 +152,7 @@ class ReadingsController < ApplicationController
 
   delete "/readings/:id/delete" do
     reading = Reading.find(params[:id])
+
     reading.destroy
 
     flash[:message] = 'Your reading has been deleted.'
