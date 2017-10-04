@@ -12,7 +12,12 @@ class UsersController < ApplicationController
 
       erb :"/users/signup"
     else
-      # create User obj
+      user = User.create(username: params[:username],
+                         password: params[:password])
+
+      session[:u_id] = user.id
+
+      redirect '/people/new'
     end
   end
 end
