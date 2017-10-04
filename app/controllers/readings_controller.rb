@@ -98,41 +98,49 @@ class ReadingsController < ApplicationController
   end
 
   post "/readings/:id" do
-  @reading = Reading.find(params[:id])
+    @reading = Reading.find(params[:id])
 
-  v = params.select {|k,v| v unless k == 'content' }
-  if !@reading.emtpy_input?(v) &&
-      @reading.category_selector(params[:systolic], params[:diastolic])
-    @reading.systolic = params[:systolic]
-    @reading.diastolic = params[:diastolic]
-    @reading.pulse = params[:pulse]
+    v = params.select {|k,v| v unless k == 'content' }
+    if !@reading.emtpy_input?(v) &&
+        @reading.category_selector(params[:systolic], params[:diastolic])
+      @reading.systolic = params[:systolic]
+      @reading.diastolic = params[:diastolic]
+      @reading.pulse = params[:pulse]
 
-    datetime = @reading.datetime_sql_insert(params[:date], params[:time])
-    @reading.reading_date_time = datetime
+      datetime = @reading.datetime_sql_insert(params[:date], params[:time])
+      @reading.reading_date_time = datetime
 
-    grp = @reading.category_selector(params[:systolic], params[:diastolic])
-    @reading.category = grp
+      grp = @reading.category_selector(params[:systolic], params[:diastolic])
+      @reading.category = grp
 
-    Comment.find(@reading.comments.ids).each do |comment|
-      comment.update(content: params[:content]) unless params[:content].empty?
+      Comment.find(@reading.comments.ids).each do |comment|
+        comment.update(content: params[:content]) unless params[:content].empty?
+      end
+
+      @reading.save
+      flash[:message] = 'Your updated was successful!'
+
+      redirect "/readings/#{@reading.id}"
+    else
+      flash[:message] = 'Some required information is missing or your BP ' \
+                        'reading is not possible. Please review your input.'
+
+      @date = params[:date]
+      @time = params[:time]
+      @reading.systolic = params[:systolic]
+      @reading.diastolic = params[:diastolic]
+      @reading.pulse = params[:pulse]
+
+      erb :"/readings/edit"
     end
-
-    @reading.save
-    flash[:message] = 'Your updated was successful!'
-
-    redirect "/readings/#{@reading.id}"
-  else
-    flash[:message] = 'Some required information is missing or your BP ' \
-                      'reading is not possible. Please review your input.'
-
-    @date = params[:date]
-    @time = params[:time]
-    @reading.systolic = params[:systolic]
-    @reading.diastolic = params[:diastolic]
-    @reading.pulse = params[:pulse]
-
-    erb :"/readings/edit"
   end
-end
 
+  delete "/readings/:id/delete" do
+    reading = Reading.find(params[:id])
+    reading.destroy
+
+    flash[:message] = 'Your reading has been deleted.'
+
+    redirect "/readings"
+  end
 end
