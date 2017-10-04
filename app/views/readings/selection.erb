@@ -45,8 +45,8 @@
 
       <% @u_readings.each do |reading| %>
         <tr>
-          <td><%= reading.reading_date_time.strftime("%m/%d/%Y") %></td> <!--pulls the date -->
-          <td><%= reading.reading_date_time.strftime("%I:%M %p") %></td> <!--pulls the time -->
+          <td><%= reading.reading_date_time.strftime("%m/%d/%Y") %></td>
+          <td><%= reading.reading_date_time.strftime("%I:%M %p") %></td>
           <td><%= reading.systolic %>/<%= reading.diastolic %> mmHg</td>
           <td><%= reading.category %></td>
           <% reading.comments.each do |comment| %>
