@@ -38,7 +38,15 @@ class PeopleController < ApplicationController
 
       @date = @person.date
 
-      erb :'/people/show'
+      if current_user.person_id == @person.id
+        erb :'/people/show'
+      else
+        # not working...
+        # flash[:message] = "You don't have permission to access this profile."
+
+        redirect "/people/#{@user.person_id}?error=You do not have " \
+                                            "permission to access that profile."
+      end
     else
       redirect '/'
     end
