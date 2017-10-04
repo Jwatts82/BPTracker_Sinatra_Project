@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <p align="right">
+    <a href="/logout"><input type="submit" value="Logout"></a>
+  </p>
+
+  <% t = Time.now %>
+  <h1>Readings from <%= @start_date %> to <%= @end_date %></h1>
+
+  <% if flash.has?(:message) %>
+    <h2><strong><%= flash[:message] %></strong></h2>
+  <% end %>
+
+  <p align="right">
+    <a href="/people/<%= @user.person_id %>">
+      <input type="submit" value="Profile"></a>
+
+    <a href="/readings"><input type="submit" value="Readings"></a>
+  </p>
+
+  <h3><%= t.strftime("%A, %b %e, %Y") %></h3>
+
+  <head>
+    <style>
+      table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+      }
+      th, td {
+          padding: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <table style="width:100%">
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Pressure (mmHg)</th>
+        <th>Category</th>
+        <th>Notes</th>
+      </tr>
+
+      <% @u_readings.each do |reading| %>
+        <tr>
+          <td><%= reading.reading_date_time.strftime("%m/%d/%Y") %></td> <!--pulls the date -->
+          <td><%= reading.reading_date_time.strftime("%I:%M %p") %></td> <!--pulls the time -->
+          <td><%= reading.systolic %>/<%= reading.diastolic %> mmHg</td>
+          <td><%= reading.category %></td>
+          <% reading.comments.each do |comment| %>
+            <td><%=  comment.content %></td>
+          <% end %>
+
+          <td>
+            <a href="/readings/<%= reading.id %>/edit">
+              <input type="submit" value="Edit"></a>
+          </td>
+
+          <form action="/readings/<%= reading.id %>/delete" method="post">
+            <input type="hidden" id="hidden" name="_method" value="delete">
+            <td><input type="submit" value="Delete"></td>
+          </form>
+
+        </tr>
+      <% end %>
+    </table>
+
+    <br>
+    <br>
+    <br>
+
+    <table style="width:25%">
+      <tr>
+        <th>Category Abbreviations</th>
+      </tr>
+
+      <tr>
+        <td>L</td>
+        <td>Low</td>
+      </tr>
+
+       <tr>
+        <td>N</td>
+        <td>Normal</td>
+      </tr>
+
+      <tr>
+        <td>P-HBP</td>
+        <td>Prehypertension</td>
+      </tr>
+
+      <tr>
+        <td>HBP-1</td>
+        <td>Hypertension Stage 1</td>
+      </tr>
+
+      <tr>
+        <td>HBP-2</td>
+        <td>Hypertension Stage 2</td>
+      </tr>
+    </table>
+
+    <p>* "HBP" stands for High Blood Pressure or  Hypertension</p>
+
+    <p>These categories are based from the American Heart Association Blood
+       Pressure Readings Chart.</p>
+  </body>
+</html>
