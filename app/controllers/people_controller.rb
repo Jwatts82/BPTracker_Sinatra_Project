@@ -43,4 +43,13 @@ class PeopleController < ApplicationController
       redirect '/'
     end
   end
+
+  get "/people/:id/edit" do
+  @person = Person.find(params[:id])
+
+  @user = User.find(session[:u_id])
+    # erb :test
+    # current_user retuns the @user obj
+    erb :'/people/edit'
+  end
 end
