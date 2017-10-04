@@ -1,1 +1,112 @@
-index.erb
+<!DOCTYPE html>
+<html>
+  <p align="right">
+    <a href="/logout"><input type="submit" value="Logout"></a>
+  </p>
+
+  <h1>Readings</h1>
+
+    <p align="right">
+      <a href="/people/<%= @user.person_id %>">
+        <input type="submit" value="Profile"></a>
+    </p>
+
+    <% if flash.has?(:message) %>
+      <h2><strong><%= flash[:message] %></strong></h2>
+    <% end %>
+
+    <% t = Time.now %>
+  <h3><%= t.strftime("%A, %b %e, %Y") %></h3>
+
+  <head>
+    <style>
+      table {
+          border-collapse: collapse;
+      }
+
+      table, td, th {
+          border: 1px solid black;
+      }
+      th, td {
+        	padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Pressure</th>
+      <th>Category</th>
+      <th>Notes</th>
+    </tr>
+    <% @u_readings.each do |reading| %>
+      <tr>
+        <td><%= reading.reading_date_time.strftime("%m/%d/%Y") %></td>
+        <td><%= reading.reading_date_time.strftime("%I:%M %p") %></td>
+        <td><%= reading.systolic %>/<%= reading.diastolic %> mmHg</td>
+        <td><%= reading.category %></td>
+        <% reading.comments.each do |comment| %>
+          <td><%=  comment.content %></td>
+        <% end %>
+        <td>
+          <a href="/readings/<%= reading.id %>/edit">
+            <input type="submit" value="Edit"></a>
+        </td>
+
+        <form action="/readings/<%= reading.id %>/delete" method="post">
+          <input type="hidden" id="hidden" name="_method" value="delete">
+          <td><input type="submit" value="Delete"></td>
+        </form>
+      </tr>
+    <% end %>
+  </table>
+
+    <br>
+
+    <a href="/readings/new"><input type="submit" value="Add Reading"></a>
+    <a href="/comments"><input type="submit" value="Comments"></a>
+
+    <br>
+    <br>
+    <br>
+
+    <table style="width:25%">
+      <tr>
+        <th>Category Abbreviations</th>
+      </tr>
+
+      <tr>
+        <td>L</td>
+        <td>Low</td>
+      </tr>
+
+       <tr>
+        <td>N</td>
+        <td>Normal</td>
+      </tr>
+
+      <tr>
+        <td>P-HBP</td>
+        <td>Prehypertension</td>
+      </tr>
+
+      <tr>
+        <td>HBP-1</td>
+        <td>Hypertension Stage 1</td>
+      </tr>
+
+      <tr>
+        <td>HBP-2</td>
+        <td>Hypertension Stage 2</td>
+      </tr>
+    </table>
+
+    <p>* "HBP" stands for High Blood Pressure or  Hypertension</p>
+
+    <p>These categories are based from the American Heart Association Blood
+       Pressure Readings Chart.</p>
+  </body>
+</html>
