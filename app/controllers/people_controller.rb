@@ -64,7 +64,18 @@ class PeopleController < ApplicationController
 
       erb :'people/edit'
     else
-      # update person info
+      @person.update(first_name: params[:first_name],
+                     last_name: params[:last_name],
+                     dob: params[:dob])
+      @person.age = @person.age_calculator(params[:dob].to_date)
+      @person.save
+
+      @user.update(username: params[:username], password: params[:password])
+
+      flash[:message] = "Your edit was successfully!"
+
+      @date = @person.date
+
       erb :'people/show'
     end
   end
