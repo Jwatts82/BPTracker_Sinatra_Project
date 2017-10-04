@@ -13,7 +13,7 @@ And then execute:
 
 ## Usage
 
-Step 1) Run: `rake db:migrate` after cloning the repository.
+Step 1) Run: `rake db:migrate` after cloning the repository. <br />
 Step 2) Run: `shotgun`
 
 ## Contributing
