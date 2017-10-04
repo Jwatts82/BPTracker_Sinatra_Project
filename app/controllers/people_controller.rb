@@ -1,9 +1,9 @@
 class PeopleController < ApplicationController
   get '/people/new' do
-    erb :'/people/new'
+    logged_in? ? (erb :'/people/new') : (redirect '/')
   end
 
   get '/people/:id' do
-    erb :'/people/show'
+    logged_in? ? (erb :'/people/show') : (redirect '/')
   end
 end
