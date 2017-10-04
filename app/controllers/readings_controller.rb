@@ -26,6 +26,12 @@ class ReadingsController < ApplicationController
       reading.pulse = params[:pulse]
       reading.person_id = user.person_id
 
+      datetime = reading.datetime_sql_insert(params[:date], params[:time])
+      reading.reading_date_time = datetime
+
+      reading.category = reading.category_selector(params[:systolic],
+                                                  params[:diastolic])
+
       redirect "/readings/#{reading.id}"
     else
       flash[:message] = 'Some required information is missing or your BP ' \

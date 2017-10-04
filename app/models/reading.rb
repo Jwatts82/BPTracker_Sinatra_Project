@@ -24,4 +24,8 @@ class Reading < ActiveRecord::Base
       return 'HBP-2'
     end
   end
+
+  def datetime_sql_insert(date, time)
+    date + ' ' + time
+  end
 end
