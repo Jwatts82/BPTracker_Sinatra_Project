@@ -47,7 +47,7 @@ class ReadingsController < ApplicationController
                                                   params[:diastolic])
 
       params[:content].empty? ? comment = Comment.create(content: 'no comment') :
-                                comment = Comment.create(content: params[:comment])
+                            comment = Comment.create(content: params[:content])
       reading.comments << comment
 
       reading.save
@@ -121,7 +121,7 @@ class ReadingsController < ApplicationController
 
     v = params.select {|k,v| v unless k == 'content' }
     if !@reading.emtpy_input?(v) &&
-        @reading.category_selector(params[:systolic], params[:diastolic])
+       @reading.category_selector(params[:systolic], params[:diastolic])
       @reading.systolic = params[:systolic]
       @reading.diastolic = params[:diastolic]
       @reading.pulse = params[:pulse]
@@ -137,6 +137,7 @@ class ReadingsController < ApplicationController
       end
 
       @reading.save
+
       flash[:message] = 'Your updated was successful!'
 
       redirect "/readings/#{@reading.id}"
@@ -157,10 +158,17 @@ class ReadingsController < ApplicationController
   delete "/readings/:id/delete" do
     reading = Reading.find(params[:id])
 
-    reading.destroy
+    if reading.person_id == current_user.person_id
+      reading.destroy
 
-    flash[:message] = 'Your reading has been deleted.'
+      flash[:message] = 'Your reading has been deleted.'
 
-    redirect "/readings"
+      redirect "/readings"
+    else
+      flash[:message] = "You don't have permission to perform this action."
+
+      redirect '/readings?error=You do not have permission to perform ' \
+               'this action.'
+    end
   end
 end
