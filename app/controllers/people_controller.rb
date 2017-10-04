@@ -49,7 +49,15 @@ class PeopleController < ApplicationController
 
     @user = User.find(session[:u_id])
 
-    erb :'/people/edit'
+    if current_user.person_id == @person.id
+      erb :'/people/edit'
+    else
+      # not displaying
+      # flash[:message] = "You don't have permission to access that page."
+
+      redirect "/people/#{@user.person_id}?error=You do not have " \
+                                          "permission to access that page."
+    end
   end
 
   post '/people/:id' do
@@ -83,8 +91,14 @@ class PeopleController < ApplicationController
   delete '/people/:id/delete' do
     person = Person.find(params[:id])
 
-    session.clear
-    person.destroy
+    user = User.find_by(person_id: person.id)
+
+    if current_user == user
+      session.clear
+      person.destroy
+    else
+      (redirect "/people/#{person.id}")
+    end
 
     redirect '/'
   end
