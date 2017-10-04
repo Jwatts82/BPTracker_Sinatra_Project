@@ -45,11 +45,27 @@ class PeopleController < ApplicationController
   end
 
   get "/people/:id/edit" do
-  @person = Person.find(params[:id])
+    @person = Person.find(params[:id])
 
-  @user = User.find(session[:u_id])
-    # erb :test
-    # current_user retuns the @user obj
+    @user = User.find(session[:u_id])
+
     erb :'/people/edit'
+  end
+
+  post '/people/:id' do
+    @person = Person.find(params[:id])
+
+    @user = User.find(session[:u_id])
+
+    v = params.select {|k,v| v if k != 'password' }
+    if @person.emtpy_input?(v)
+      flash[:message] = 'Some required information is missing or incomplete.' \
+                        ' Please correct your entries and try again.'
+
+      erb :'people/edit'
+    else
+      # update person info
+      erb :'people/show'
+    end
   end
 end
