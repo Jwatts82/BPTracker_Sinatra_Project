@@ -15,6 +15,17 @@
       <h2><strong><%= flash[:message] %></strong></h2>
     <% end %>
 
+    <form action="/readings/selection" method="post">
+      <h3>Select dates</h3>
+      <label for="start_date">from: </label>
+      <input type="date" name="start_date" value="">
+
+      <label for="end_date"> to: </label>
+      <input type="date" name="end_date" value="">
+
+      <input type="submit" value="Search">
+    </form>
+    
     <% t = Time.now %>
   <h3><%= t.strftime("%A, %b %e, %Y") %></h3>
 
