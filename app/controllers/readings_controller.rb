@@ -9,6 +9,8 @@ class ReadingsController < ApplicationController
   end
 
   post "/readings" do
+    user = User.find(session[:u_id])
+
     @date = params[:date]
     @time = params[:time]
     @systolic = params[:systolic]
@@ -32,12 +34,26 @@ class ReadingsController < ApplicationController
       reading.category = reading.category_selector(params[:systolic],
                                                   params[:diastolic])
 
+      params[:content].empty? ? comment = Comment.create(content: 'no comment') :
+                                comment = Comment.create(content: params[:comment])
+      reading.comments << comment
+
+      reading.save
+
       redirect "/readings/#{reading.id}"
     else
       flash[:message] = 'Some required information is missing or your BP ' \
                         'reading is not possible. Please review your input.'
 
        erb :'readings/new'
+    end
+  end
+
+  get '/readings/:id' do
+    if logged_in?
+      erb :"/readings/show"
+    else
+      redirect '/'
     end
   end
 end
