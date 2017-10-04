@@ -1,1 +1,48 @@
-edit.erb
+<p align="right">
+  <a href="/logout"><input type="submit" value="Logout"></a>
+</p>
+
+<h1>Reading Edit</h1>
+
+<% if flash.has?(:message) %>
+  <h2><strong><%= flash[:message] %></strong></h2>
+<% end %>
+
+<form action="/readings/<%= @reading.id %>" method="post">
+
+  <h3><label for='date'>Date: </label></h3>
+  <input type="date" name="date" value="<%= %>">
+
+  <br>
+
+  <h3><label for='time'>Time: </label></h3>
+  <input type="time" name="time" value="<%= %>">
+
+  <br>
+
+  <h3><label for='systolic reading'>What is your systolic pressure? </label></h3>
+  <input type="nuber" name="systolic" value="<%= @reading.systolic %>">
+
+  <br>
+
+  <h3><label for='diastolic reading'>What is your diastolic pressure? </label></h3>
+  <input type="nuber" name="diastolic" value="<%= @reading.diastolic %>">
+
+  <br>
+
+  <h3><label for='pulse'>What is your heart rate? </label></h3>
+  <input type="nuber" name="pulse" value="<%= @reading.pulse %>">
+  <p>(For a healthy adult a normal pulse is between 60 to 100 beats/minutes.)</p>
+
+  <br>
+
+  <h3><label for='comment'>Notes: </label></h3>
+  <% @reading.comments.each do |comment| %>
+    <input type="text" name="content" value="<%= comment.content %>">
+  <% end %>
+
+  <br>
+
+  <p><input type="submit" value="Update"></p>
+
+</form>
