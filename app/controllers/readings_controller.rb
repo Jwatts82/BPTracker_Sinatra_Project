@@ -103,7 +103,6 @@ class ReadingsController < ApplicationController
   v = params.select {|k,v| v unless k == 'content' }
   if !@reading.emtpy_input?(v)
     # update reading and comment objects
-    
     flash[:message] = 'Your updated was successful!'
 
     redirect "/readings/show"
@@ -113,6 +112,10 @@ class ReadingsController < ApplicationController
 
     @date = params[:date]
     @time = params[:time]
+    @reading.systolic = params[:systolic]
+    @reading.diastolic = params[:diastolic]
+    @reading.pulse = params[:pulse]
+
     erb :"/readings/edit"
   end
 end
