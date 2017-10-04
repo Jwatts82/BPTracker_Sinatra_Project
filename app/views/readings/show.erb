@@ -1,1 +1,67 @@
-show.erb
+<!DOCTYPE html>
+<html>
+  <p align="right">
+    <a href="/logout"><input type="submit" value="Logout"></a>
+  </p>
+
+  <h1>Readings</h1>
+
+  <% if flash.has?(:message) %>
+    <h2><strong><%= flash[:message] %></strong></h2>
+  <% end %>
+
+  <p align="right">
+    <a href="/people/<%= @reading.person_id %>">
+      <input type="submit" value="Profile"></a>
+
+    <a href="/readings"><input type="submit" value="Readings"></a>
+  </p>
+
+  <% t = Time.now %>
+  <h3><%= t.strftime("%A, %b %e, %Y") %></h3>
+
+  <head>
+    <style>
+      table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+      }
+      th, td {
+          padding: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <table style="width:100%">
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Pressure (mmHg)</th>
+        <th>Category</th>
+        <th>Notes</th>
+      </tr>
+
+      <tr>
+        <td><%= @date %></td>
+        <td><%= @time %></td>
+        <td><%= @reading.systolic %>/<%= @reading.diastolic %></td>
+        <td><%= @reading.category %></td>
+        <% @reading.comments.each do |comment| %>
+          <td><%= comment.content %></td>
+        <% end %>
+        <form action="/readings/<%= @reading.id %>/delete" method="post">
+          <input type="hidden" id="hidden" name="_method" value="delete">
+          <td><input type="submit" value="Delete"></td>
+        </form>
+      </tr>
+    </table>
+
+    <br>
+
+    <a href="/readings/new"><input type="submit" value="Add Reading"></a>
+
+    <p align="right"><a href="/readings/<%= @reading.id %>/edit">
+      <input type="submit" value="Edit"></a>
+    </p>
