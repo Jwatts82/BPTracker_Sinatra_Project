@@ -1,1 +1,25 @@
 <h1>Add Profile Information</h1>
+
+<% if flash.has?(:message) %>
+  <h2><%= flash[:message] %></h2>
+<% end %>
+
+<form action='/people' method='post'>
+  <h3><label for='first_name'>First Name: </label></h3>
+  <input type="text" name="first_name" value="<%= @first_name%>">
+
+  <br>
+
+  <h3><label for='last_name'>Last Name: </label></h3>
+  <input type="text" name="last_name" value="<%= @last_name%>">
+
+  <br>
+
+  <h3><label for='dob'>Date of Birth: </label></h3>
+  <input type="date" name="dob" value="<%= @dob%>">
+
+  <br>
+  <br>
+
+  <input type="submit" value="Save">
+</form>
