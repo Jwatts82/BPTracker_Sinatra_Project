@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   get '/signup' do
-    erb :"/users/signup"
+    logged_in? ? (redirect '/readings') : (erb :"/users/signup")
   end
 
   post '/signup' do
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   end
 
   get '/login' do
-    erb :'users/login'
+    logged_in? ? (redirect '/readings') : (erb :'users/login')
   end
 
   post '/login' do
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   get '/logout' do
-    session.clear
+    session.clear if logged_in?
 
     redirect '/'
   end
