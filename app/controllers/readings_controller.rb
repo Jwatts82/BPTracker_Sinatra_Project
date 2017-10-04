@@ -1,15 +1,19 @@
 class ReadingsController < ApplicationController
 
   get '/readings' do
-    @user = User.find(session[:u_id])
+    if logged_in?
+      @user = User.find(session[:u_id])
 
-    readings = Reading.order('reading_date_time')
+      readings = Reading.order('reading_date_time')
 
-    @u_readings = readings.select do |reading|
-      reading.person_id == @user.person_id
+      @u_readings = readings.select do |reading|
+        reading.person_id == @user.person_id
+      end
+
+      erb :'/readings/index'
+    else
+      redirect '/'
     end
-
-    erb :'readings/index'
   end
 
   get '/readings/new' do
@@ -31,7 +35,7 @@ class ReadingsController < ApplicationController
     v = params.select {|k,v| v unless k == 'content' }
     if !reading.emtpy_input?(v) &&
        reading.category_selector(params[:systolic], params[:diastolic])
-       reading.systolic = params[:systolic]
+      reading.systolic = params[:systolic]
       reading.diastolic = params[:diastolic]
       reading.pulse = params[:pulse]
       reading.person_id = user.person_id
@@ -81,20 +85,24 @@ class ReadingsController < ApplicationController
 
       @time = @reading.reading_date_time.strftime("%I:%M%p")
 
-      erb :"/readings/show"
+      erb :'/readings/show'
     else
       redirect '/'
     end
   end
 
   get "/readings/:id/edit" do
-    @reading = Reading.find(params[:id])
+    if logged_in?
+      @reading = Reading.find(params[:id])
 
-    @date = @reading.date
+      @date = @reading.date
 
-    @time = @reading.time
+      @time = @reading.time
 
-    erb :"/readings/edit"
+      erb :'/readings/edit'
+    else
+      redirect '/'
+    end
   end
 
   post "/readings/:id" do
@@ -131,7 +139,7 @@ class ReadingsController < ApplicationController
       @reading.diastolic = params[:diastolic]
       @reading.pulse = params[:pulse]
 
-      erb :"/readings/edit"
+      erb :'/readings/edit'
     end
   end
 
