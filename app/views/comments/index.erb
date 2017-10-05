@@ -1,1 +1,12 @@
-index.erb
+<p align="right">
+  <a href="/logout"><input type="submit" value="Logout"></a>
+</p>
+
+<h1>Comments</h1>
+<ul>
+  <% @person.comments.each do |comment| %>
+    <h3><li><%= comment.content %></li></h3>
+  <% end %>
+</ul>
+
+<a href="/readings"><input type="submit" value="Readings"></a>
