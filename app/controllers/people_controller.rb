@@ -5,16 +5,16 @@ class PeopleController < ApplicationController
   end
 
   post '/people' do
-
-    @first_name = params[:first_name]
-    @last_name = params[:last_name]
-    @dob = params[:dob]
-
     person = Person.new
     if person.emtpy_input?(params)
-       flash[:message] = 'Some required information is missing or incomplete.' \
-                         ' Please correct your entries and try again.'
-       erb :'people/new'
+      flash[:message] = 'Some required information is missing or incomplete.' \
+                        ' Please correct your entries and try again.'
+
+      @first_name = params[:first_name]
+      @last_name = params[:last_name]
+      @dob = params[:dob]
+
+      erb :'people/new'
     else
       person.first_name = params[:first_name]
       person.last_name = params[:last_name]
@@ -24,7 +24,6 @@ class PeopleController < ApplicationController
 
       user = User.find(session[:u_id])
       user.person = person
-
       user.save
 
       redirect "/people/#{person.id}"
@@ -113,8 +112,9 @@ class PeopleController < ApplicationController
       session.clear
       person.destroy
     else
-      (redirect "/people/#{person.id}")
+      redirect "/people/#{person.id}"
     end
+    
     session[:message] = 'Your account has been deleted'
 
     redirect '/'
