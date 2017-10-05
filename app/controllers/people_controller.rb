@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+
   get '/people/new' do
     logged_in? ? (erb :'/people/new') : (redirect '/')
   end
@@ -38,11 +39,13 @@ class PeopleController < ApplicationController
 
       @date = @person.date
 
+      @message = session[:message]
+      session[:message] = nil
+
       if current_user.person_id == @person.id
         erb :'/people/show'
       else
-        # not working...
-        # flash[:message] = "You don't have permission to access this profile."
+        session[:message] = "You don't have permission to access this profile."
 
         redirect "/people/#{@user.person_id}?error=You do not have " \
                                             "permission to access that profile."
@@ -60,8 +63,7 @@ class PeopleController < ApplicationController
     if current_user.person_id == @person.id
       erb :'/people/edit'
     else
-      # not displaying
-      # flash[:message] = "You don't have permission to access that page."
+      session[:message] = "You don't have permission to access that page."
 
       redirect "/people/#{@user.person_id}?error=You do not have " \
                                           "permission to access that page."
@@ -107,6 +109,7 @@ class PeopleController < ApplicationController
     else
       (redirect "/people/#{person.id}")
     end
+    session[:message] = 'Your account has been deleted'
 
     redirect '/'
   end
