@@ -4,11 +4,9 @@
     <a href="/logout"><input type="submit" value="Logout"></a>
   </p>
 
-  <h1>Readings</h1>
+  <h1><%= @message if @message %></h1>
 
-  <% if flash.has?(:message) %>
-    <h2><strong><%= flash[:message] %></strong></h2>
-  <% end %>
+  <h1>Readings</h1>
 
   <p align="right">
     <a href="/people/<%= @reading.person_id %>">

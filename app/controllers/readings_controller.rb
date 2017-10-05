@@ -88,6 +88,9 @@ class ReadingsController < ApplicationController
 
       @time = @reading.reading_date_time.strftime("%I:%M%p")
 
+      @message = session[:message]
+      session[:message] = nil
+
       if @reading.person_id == current_user.person_id
         erb :'/readings/show'
       else
