@@ -77,7 +77,7 @@ class ReadingsController < ApplicationController
     @start_date = params[:start_date].to_date.strftime("%m/%d/%Y")
     @end_date = params[:end_date].to_date.strftime("%m/%d/%Y")
 
-    logged_in? ? (erb :'readings/selection') : (redirect '/')
+    erb :'readings/selection'
   end
 
   get '/readings/:id' do

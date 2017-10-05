@@ -7,10 +7,6 @@
   <% t = Time.now %>
   <h1>Readings from <%= @start_date %> to <%= @end_date %></h1>
 
-  <% if flash.has?(:message) %>
-    <h2><strong><%= flash[:message] %></strong></h2>
-  <% end %>
-
   <p align="right">
     <a href="/people/<%= @user.person_id %>">
       <input type="submit" value="Profile"></a>
