@@ -4,16 +4,14 @@
     <a href="/logout"><input type="submit" value="Logout"></a>
   </p>
 
+  <h1><%= @message if @message %></h1>
+
   <h1>Readings</h1>
 
     <p align="right">
       <a href="/people/<%= @user.person_id %>">
         <input type="submit" value="Profile"></a>
     </p>
-
-    <% if flash.has?(:message) %>
-      <h2><strong><%= flash[:message] %></strong></h2>
-    <% end %>
 
     <form action="/readings/selection" method="post">
       <h3>Select dates</h3>
@@ -25,7 +23,7 @@
 
       <input type="submit" value="Search">
     </form>
-    
+
     <% t = Time.now %>
   <h3><%= t.strftime("%A, %b %e, %Y") %></h3>
 

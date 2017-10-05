@@ -10,6 +10,9 @@ class ReadingsController < ApplicationController
         reading.person_id == @user.person_id
       end
 
+      @message = session[:message]
+      session[:message] = nil
+
       erb :'/readings/index'
     else
       redirect '/'
@@ -57,7 +60,7 @@ class ReadingsController < ApplicationController
       flash[:message] = 'Some required information is missing or your BP ' \
                         'reading is not possible. Please review your input.'
 
-       erb :'readings/new'
+       erb :'/readings/new'
     end
   end
 
@@ -88,7 +91,7 @@ class ReadingsController < ApplicationController
       if @reading.person_id == current_user.person_id
         erb :'/readings/show'
       else
-        flash[:message] = "You don't have permission to access this reading."
+        session[:message] = "You don't have permission to access this reading."
 
         redirect '/readings?error=You do not have permission to access ' \
                  'that reading.'
@@ -98,7 +101,7 @@ class ReadingsController < ApplicationController
     end
   end
 
-  get "/readings/:id/edit" do
+  get '/readings/:id/edit' do
     @reading = Reading.find(params[:id])
 
     if @reading.person_id == current_user.person_id
@@ -109,14 +112,14 @@ class ReadingsController < ApplicationController
 
       erb :'/readings/edit'
     else
-      flash[:message] = "You don't have permission to access this page."
+      session[:message] = "You don't have permission to access this page."
 
       redirect '/readings?error=You do not have permission to access ' \
                'that page.'
     end
   end
 
-  post "/readings/:id" do
+  post '/readings/:id' do
     @reading = Reading.find(params[:id])
 
     v = params.select {|k,v| v unless k == 'content' }
@@ -138,7 +141,7 @@ class ReadingsController < ApplicationController
 
       @reading.save
 
-      flash[:message] = 'Your updated was successful!'
+      session[:message] = 'Your updated was successful!'
 
       redirect "/readings/#{@reading.id}"
     else
@@ -155,17 +158,17 @@ class ReadingsController < ApplicationController
     end
   end
 
-  delete "/readings/:id/delete" do
+  delete '/readings/:id/delete' do
     reading = Reading.find(params[:id])
 
     if reading.person_id == current_user.person_id
       reading.destroy
 
-      flash[:message] = 'Your reading has been deleted.'
+      session[:message] = 'Your reading has been deleted.'
 
-      redirect "/readings"
+      redirect '/readings'
     else
-      flash[:message] = "You don't have permission to perform this action."
+      session[:message] = "You don't have permission to perform this action."
 
       redirect '/readings?error=You do not have permission to perform ' \
                'this action.'
