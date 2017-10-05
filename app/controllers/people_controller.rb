@@ -80,6 +80,12 @@ class PeopleController < ApplicationController
       flash[:message] = 'Some required information is missing or incomplete.' \
                         ' Please correct your entries and try again.'
 
+      @person.first_name = params[:first_name]
+      @person.last_name = params[:last_name]
+      @person.dob = params[:dob]
+      @user.username = params[:username]
+      @user.password = params[:password]
+
       erb :'people/edit'
     else
       @person.update(first_name: params[:first_name],
