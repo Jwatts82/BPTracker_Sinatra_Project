@@ -52,7 +52,6 @@ class ReadingsController < ApplicationController
       params[:content].empty? ? comment = Comment.create(content: 'no comment') :
                             comment = Comment.create(content: params[:content])
       reading.comments << comment
-
       reading.save
 
       redirect "/readings/#{reading.id}"
@@ -108,7 +107,6 @@ class ReadingsController < ApplicationController
     @reading = Reading.find(params[:id])
 
     if @reading.person_id == current_user.person_id
-
       @date = @reading.date
 
       @time = @reading.time
