@@ -4,13 +4,13 @@
 
 <h1><%= @message if @message %></h1>
 
-<% if flash.has?(:message) %>
-  <h1><%= flash[:message] %></h1>
-<% end %>
-
 <h1><%= @person.first_name[0] %>. <%= @person.last_name %> Profile</h1>
 
-<h3>Full Name: <%= @person.first_name %> <%= @person.last_name%></h3>
+<% if flash.has?(:message) %>
+  <h2><%= flash[:message] %></h2>
+<% end %>
+
+<h3>Full Name: <%= @person.first_name %> <%= @person.last_name %></h3>
 
 <p>DOB: <%= @date %></p>
 
