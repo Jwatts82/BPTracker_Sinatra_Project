@@ -1,11 +1,9 @@
 class Reading < ActiveRecord::Base
+  include InputCheck::InstanceMethods
+
   belongs_to :person
   has_many :comment_readings, dependent: :destroy
   has_many :comments, through: :comment_readings
-
-  def emtpy_input?(hash)
-    hash.values.any? {|v| v.empty? }
-  end
 
   def category_selector(sbp, dbp)
     systolic = sbp.to_i

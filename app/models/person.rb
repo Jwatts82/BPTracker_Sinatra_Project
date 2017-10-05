@@ -1,11 +1,9 @@
 class Person < ActiveRecord::Base
+  include InputCheck::InstanceMethods
+
   has_many :users, dependent: :destroy
   has_many :readings, dependent: :destroy
   has_many :comments, through: :readings
-
-  def emtpy_input?(hash)
-    hash.values.any? {|v| v.empty? }
-  end
 
   def age_calculator(dob)
     now = Time.now.utc.to_date
