@@ -4,7 +4,6 @@
     <a href="/logout"><input type="submit" value="Logout"></a>
   </p>
 
-  <% t = Time.now %>
   <h1>Readings from <%= @start_date %> to <%= @end_date %></h1>
 
   <p align="right">
@@ -14,6 +13,7 @@
     <a href="/readings"><input type="submit" value="Readings"></a>
   </p>
 
+  <% t = Time.now %>
   <h3><%= t.strftime("%A, %b %e, %Y") %></h3>
 
   <head>
@@ -34,7 +34,7 @@
       <tr>
         <th>Date</th>
         <th>Time</th>
-        <th>Pressure (mmHg)</th>
+        <th>Pressure</th>
         <th>Category</th>
         <th>Notes</th>
       </tr>
