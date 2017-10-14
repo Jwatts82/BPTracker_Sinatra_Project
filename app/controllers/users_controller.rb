@@ -5,19 +5,13 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-
-    if params[:username].empty? || params[:password].empty?
-      flash[:message] = 'Some required information is missing or incomplete.' \
-                        ' Please correct your entries and try again.'
-
-      erb :"/users/signup"
-    else
-      user = User.create(username: params[:username],
-                         password: params[:password])
-
-      session[:u_id] = user.id
-
+    user = User.new(params[:user])
+    if user.save
+      session[:user_id] = user.id
       redirect '/people/new'
+    else
+      flash[:message] = user.errors.full_messages.join(', ')
+      erb :'/users/signup'
     end
   end
 
@@ -31,7 +25,7 @@ class UsersController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:message] = "Welcome Back!"
 
-      session[:u_id] = user.id
+      session[:user_id] = user.id
 
       redirect '/readings'
     else
