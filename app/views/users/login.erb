@@ -5,16 +5,25 @@
 <% end %>
 
 <form action="/login" method="POST">
+  <div>
+    <strong><label for="username">Username:</label></strong>
+    <div>
+      <input type="text" name="username" placeholder="Username">
+    </div>
+  </div>
 
-  <h3>Username:
-    <input type="text" name="username" placeholder="Username">
-  </h3>
+  <div>
+    <strong><label for="username">Password:</label></strong>
+    <div>
+      <input type="password" name="password" placeholder="Password">
+    </div>
+  </div>
 
-  <h3>Password:
-    <input type="password" name="password" placeholder="Password">
-  </h3>
-
-  <br>
-
-  <input type="submit" value="submit">
+  <div>
+    <input type="submit" value="submit">
+  </div>
 </form>
+
+<div>
+  Don't have an account? <a href="/signup">Register now!</a>
+</div>
