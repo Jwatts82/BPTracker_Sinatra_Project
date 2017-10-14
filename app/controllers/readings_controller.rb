@@ -2,14 +2,7 @@ class ReadingsController < ApplicationController
 
   get '/readings' do
     if logged_in?
-      @user = User.find(session[:u_id])
-
-      readings = Reading.order('reading_date_time')
-
-      @u_readings = readings.select do |reading|
-        reading.person_id == @user.person_id
-      end
-
+      @readings = current_user.readings.order('reading_date_time')
       @message = session[:message]
       session[:message] = nil
 
