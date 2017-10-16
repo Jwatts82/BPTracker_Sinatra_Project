@@ -135,29 +135,42 @@ class ReadingsController < ApplicationController
 
     v = params.select {|k,v| v unless k == 'content' }
     if !@reading.emtpy_input?(v) &&
-       @reading.category_selector(params[:systolic], params[:diastolic])
+       @reading.category_selector(
+        params[:systolic],
+        params[:diastolic]
+      )
       @reading.systolic = params[:systolic]
       @reading.diastolic = params[:diastolic]
       @reading.pulse = params[:pulse]
 
-      datetime = @reading.datetime_sql_insert(params[:date], params[:time])
+      datetime = @reading.datetime_sql_insert(
+        params[:date],
+        params[:time]
+      )
       @reading.reading_date_time = datetime
 
-      grp = @reading.category_selector(params[:systolic], params[:diastolic])
-      @reading.category = grp
+      pressure_category = @reading.category_selector(
+        params[:systolic],
+        params[:diastolic]
+      )
+      @reading.category = pressure_category
 
-      Comment.find(@reading.comments.ids).each do |comment|
-        comment.update(content: params[:content]) unless params[:content].empty?
+      comments = Comment.find(@reading.comments.ids)
+      comments.each do |comment|
+        comment.update(content: params[:content]) unless
+          params[:content].empty?
       end
 
       @reading.save
 
-      session[:message] = 'Your updated was successful!'
+      session[:message] = 'Your update was successful!'
 
       redirect "/readings/#{@reading.id}"
     else
-      flash[:message] = 'Some required information is missing or your BP ' \
-                        'reading is not possible. Please review your input.'
+      flash[:message] =
+        'Some required information is missing or ' \
+        'your BP reading is not possible. Please ' \
+        'review your input.'
 
       @date = params[:date]
       @time = params[:time]
@@ -172,17 +185,19 @@ class ReadingsController < ApplicationController
   delete '/readings/:id/delete' do
     reading = Reading.find(params[:id])
 
-    if reading.person_id == current_user.person_id
+    if reading.user_id == current_user.id
       reading.destroy
 
-      session[:message] = 'Your reading has been deleted.'
+      session[:message] =
+        'Your reading has been deleted.'
 
       redirect '/readings'
     else
-      session[:message] = "You don't have permission to perform this action."
+      session[:message] = "You don't have " \
+        "permission to perform this action."
 
-      redirect '/readings?error=You do not have permission to perform ' \
-               'this action.'
+      redirect '/readings?error=You do not have ' \
+        'permission to perform this action.'
     end
   end
 end
