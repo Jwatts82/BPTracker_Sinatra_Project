@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     user = User.new(params[:user])
     if user.save
       session[:user_id] = user.id
-      redirect '/user/new'
+      redirect '/users/new'
     else
       flash[:message] = user.errors.full_messages.join(', ')
       erb :'/users/signup'
@@ -35,11 +35,11 @@ class UsersController < ApplicationController
     end
   end
 
-  get '/user/new' do
+  get '/users/new' do
     logged_in? ? (erb :'/users/new') : (redirect '/')
   end
 
-  post '/user' do
+  post '/users' do
     user = current_user
 
     if !user.emtpy_input?(params[:user])
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
       user.age = user.age_calculator(params[:user][:dob].to_date)
       user.save
 
-      redirect "/user/#{user.id}"
+      redirect "/users/#{user.id}"
     else
       flash[:message] = 'Some required information is missing or incomplete.' \
         ' Please correct your entries and try again.'
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
     end
   end
 
-  get '/user/:id' do
+  get '/users/:id' do
     if logged_in?
       @user = current_user
       @date = @user.user_friendly_date(@user.dob)
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
       else
         session[:message] = "You don't have permission to access this profile."
 
-        redirect "/user/#{@user.id}?error=You do not have " \
+        redirect "/users/#{@user.id}?error=You do not have " \
           "permission to access that profile."
       end
 
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
     end
   end
 
-  get '/user/:id/edit' do
+  get '/users/:id/edit' do
     @user = current_user
 
     if @user.id == params[:id].to_i
@@ -90,12 +90,12 @@ class UsersController < ApplicationController
     else
       session[:message] = "You don't have permission to access that page."
 
-      redirect "/user/#{@user.id}?error=You do not have " \
+      redirect "/users/#{@user.id}?error=You do not have " \
         "permission to access that page."
     end
   end
 
-  post '/user/:id' do
+  post '/users/:id' do
     @user = current_user
 
     v = params[:user].select {|k,v| v if k != 'password' }
@@ -123,7 +123,7 @@ class UsersController < ApplicationController
     end
   end
 
-  delete '/user/:id/delete' do
+  delete '/users/:id/delete' do
     @user = current_user
 
     if @user.id == params[:id].to_i
@@ -134,7 +134,7 @@ class UsersController < ApplicationController
 
       redirect '/'
     else
-      redirect "/user/#{user.id}"
+      redirect "/users/#{user.id}"
     end
   end
 
