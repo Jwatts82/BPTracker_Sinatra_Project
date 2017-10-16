@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  include InputCheck::InstanceMethods
+  include Input::InstanceMethods
 
   has_many :readings, dependent: :destroy
   has_many :comments, through: :readings

@@ -1,5 +1,5 @@
 class Reading < ActiveRecord::Base
-  include InputCheck::InstanceMethods
+  include Input::InstanceMethods
 
   belongs_to :user
   has_many :comment_readings, dependent: :destroy
