@@ -16,6 +16,7 @@
 </div>
 
 <div>
+
   <div>
     <form action="/readings/selection" method="post">
       <h3>Select dates</h3>
@@ -56,6 +57,7 @@
       <th>Pulse</th>
       <th>Notes</th>
     </tr>
+
     <% @readings.each do |reading| %>
       <tr>
         <td><%= reading.user_friendly_date(reading.reading_date_time) %></td>
@@ -76,8 +78,10 @@
           <input type="hidden" id="hidden" name="_method" value="delete">
           <td><input type="submit" value="Delete"></td>
         </form>
+
       </tr>
     <% end %>
+
   </table>
 </div>
 

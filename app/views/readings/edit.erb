@@ -31,7 +31,6 @@
         <label for='systolic reading'>What is your systolic pressure? </label>
       </strong>
       <input type="number" name="systolic" value="<%= @reading.systolic %>">
-
     </div>
 
     <br />
@@ -57,13 +56,17 @@
       <strong><label for='comment'>Notes: </label></strong>
       <% @reading.comments.each do |comment| %>
         <input type="text" name="content" value="<%= comment.content %>">
-      <% end %>    </div>
+      <% end %>
+    </div>
 
     <br />
 
-  <div>
-    <input type="submit" value="Update">
-  </div>
-</form>
+    <div>
+      <input type="submit" value="Update">
+    </div>
+  </form>
+<div>
+
+</div>
 
 <br />
