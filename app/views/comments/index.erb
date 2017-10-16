@@ -1,12 +1,21 @@
-<p align="right">
+<div align="right">
   <a href="/logout"><input type="submit" value="Logout"></a>
-</p>
+</div>
 
-<h1>Comments</h1>
-<ul>
-  <% @person.comments.each do |comment| %>
-    <h3><li><%= comment.content %></li></h3>
-  <% end %>
-</ul>
+<div>
+  <h1>Comments</h1>
+</div>
 
-<a href="/readings"><input type="submit" value="Readings"></a>
+<div>
+  <ul>
+    <% @user.comments.each do |comment| %>
+      <h3><li><%= comment.content %></li></h3>
+    <% end %>
+  </ul>
+</div>
+
+<div>
+  <a href="/readings"><input type="submit" value="Readings"></a>
+</div>
+
+<br />

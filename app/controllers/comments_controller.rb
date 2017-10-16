@@ -2,8 +2,7 @@ class CommentsController < ApplicationController
 
   get '/comments' do
     if logged_in?
-      user = User.find(session[:u_id])
-      @person = Person.find(user.person_id)
+      @user = current_user
 
       erb :"/comments/index"
     else
