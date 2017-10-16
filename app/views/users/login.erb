@@ -1,28 +1,32 @@
-<h1>Login</h1>
+<div>
+  <% if flash.has?(:message) %>
+    <h2><strong><%= flash[:message] %></strong></h2>
+  <% end %>
+</div>
 
-<% if flash.has?(:message) %>
-  <h2><strong><%= flash[:message] %></strong></h2>
-<% end %>
+<div>
+  <h1>Login</h1>
 
-<form action="/login" method="POST">
-  <div>
-    <strong><label for="username">Username:</label></strong>
+  <form action="/login" method="POST">
     <div>
-      <input type="text" name="username" placeholder="Username">
+      <strong><label for="username">Username:</label></strong>
+      <div>
+        <input type="text" name="username" placeholder="Username">
+      </div>
     </div>
-  </div>
 
-  <div>
-    <strong><label for="username">Password:</label></strong>
     <div>
-      <input type="password" name="password" placeholder="Password">
+      <strong><label for="username">Password:</label></strong>
+      <div>
+        <input type="password" name="password" placeholder="Password">
+      </div>
     </div>
-  </div>
 
-  <div>
-    <input type="submit" value="submit">
-  </div>
-</form>
+    <div>
+      <input type="submit" value="submit">
+    </div>
+  </form>
+</div>
 
 <div>
   Don't have an account? <a href="/signup">Register now!</a>
