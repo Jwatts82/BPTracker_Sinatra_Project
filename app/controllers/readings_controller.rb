@@ -26,7 +26,7 @@ class ReadingsController < ApplicationController
     @pulse = params[:pulse]
     @comment = params[:comment]
 
-    reading = Reading.new(params[:reading])
+    reading = Reading.new
 
     v = params.select {|k,v| v unless k == 'content' }
     if !reading.emtpy_input?(v) &&
@@ -90,14 +90,23 @@ class ReadingsController < ApplicationController
     if logged_in?
       @reading = Reading.find(params[:id])
 
-      @date = @reading.reading_date_time.strftime("%m/%d/%Y")
+      @date = @reading.user_friendly_date(@reading.reading_date_time)
 
-      @time = @reading.reading_date_time.strftime("%I:%M%p")
+      @time = @reading.user_friendly_time
 
       @message = session[:message]
       session[:message] = nil
 
-      erb :'/readings/show'
+      if @reading.user_id == current_user.id
+        erb :'/readings/show'
+      else
+        session[:message] =
+          "You don't have permission to " \
+          "access this reading."
+
+        redirect '/readings?error=You do not ' \
+          'have permission to access that reading.'
+      end
     else
       redirect '/'
     end
