@@ -1,0 +1,58 @@
+<div align="right">
+  <a href="/logout"><input type="submit" value="Logout"></a>
+</div>
+
+<div>
+  <% if flash.has?(:message) %>
+    <h2><%= flash[:message] %></h2>
+  <% end %>
+</div>
+
+<br />
+
+<div>
+  <h1>Edit <%= @user.first_name[0] %>. <%= @user.last_name %> Profile</h1>
+</div>
+
+<br  />
+
+<form action='/user/<%= @user.id %> ' method='post'>
+  <div>
+    <strong><label for='first_name'>First Name: </label></strong>
+      <input type="text" name="user[first_name]" value="<%= @user.first_name %>">
+  </div>
+
+  <br />
+
+  <div>
+    <strong><label for='last_name'>Last Name: </label></strong>
+      <input type="text" name="user[last_name]" value="<%= @user.last_name %>">
+  </div>
+
+  <br  />
+
+  <div>
+    <strong><label for='dob'>Date of Birth: </label></strong>
+      <input type="date" name="user[dob]" value="<%= @user.dob %>">
+  </div>
+
+  <br  />
+
+  <div>
+    <strong><label for="username">Username:</label>  </strong>
+      <input type="text" name="user[username]" value="<%= @user.username %>">
+  </div>
+
+  <br />
+
+  <div>
+    <strong><label for="password">Password:</label></strong>
+      <input type="password" name="user[password]" value="<%= @user.password %>">
+  </div>
+
+  <br />
+
+  <input type="submit" value="Update">
+</form>
+
+<br  />
