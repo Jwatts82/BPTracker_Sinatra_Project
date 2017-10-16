@@ -1,48 +1,69 @@
-<p align="right">
+<div align="right">
   <a href="/logout"><input type="submit" value="Logout"></a>
-</p>
+</div>
 
-<h1>Reading Edit</h1>
-
-<% if flash.has?(:message) %>
-  <h2><strong><%= flash[:message] %></strong></h2>
-<% end %>
-
-<form action="/readings/<%= @reading.id %>" method="post">
-
-  <h3><label for='date'>Date: </label></h3>
-  <input type="date" name="date" value="<%= @date %>">
-
-  <br>
-
-  <h3><label for='time'>Time: </label></h3>
-  <input type="time" name="time" value="<%= @time %>">
-
-  <br>
-
-  <h3><label for='systolic reading'>What is your systolic pressure? </label></h3>
-  <input type="number" name="systolic" value="<%= @reading.systolic %>">
-
-  <br>
-
-  <h3><label for='diastolic reading'>What is your diastolic pressure? </label></h3>
-  <input type="number" name="diastolic" value="<%= @reading.diastolic %>">
-
-  <br>
-
-  <h3><label for='pulse'>What is your heart rate? </label></h3>
-  <input type="number" name="pulse" value="<%= @reading.pulse %>">
-  <p>(For a healthy adult a normal pulse is between 60 to 100 beats/minutes.)</p>
-
-  <br>
-
-  <h3><label for='comment'>Notes: </label></h3>
-  <% @reading.comments.each do |comment| %>
-    <input type="text" name="content" value="<%= comment.content %>">
+<div>
+  <% if flash.has?(:message) %>
+    <h2><strong><%= flash[:message] %></strong></h2>
   <% end %>
+</div>
 
-  <br>
+<div>
+  <h1>Reading Edit</h1>
 
-  <p><input type="submit" value="Update"></p>
+  <form action="/readings" method="post">
+    <div>
+      <strong><label for='date'>Date: </label></strong>
+      <input type="date" name="date" value="<%= @date %>">
+    </div>
 
+    <br />
+
+    <div>
+      <strong><label for='time'>Time: </label></strong>
+      <input type="time" name="time" value="<%= @time %>">
+    </div>
+
+    <br />
+
+    <div>
+      <strong>
+        <label for='systolic reading'>What is your systolic pressure? </label>
+      </strong>
+      <input type="number" name="systolic" value="<%= @reading.systolic %>">
+
+    </div>
+
+    <br />
+
+    <div>
+      <strong>
+        <label for='diastolic reading'>What is your diastolic pressure? </label>
+      </strong>
+      <input type="number" name="diastolic" value="<%= @reading.diastolic %>">
+    </div>
+
+    <br />
+
+    <div>
+      <strong><label for='pulse'>What is your heart rate? </label></strong>
+      <input type="number" name="pulse" value="<%= @reading.pulse %>">
+      For a healthy adult a normal pulse is between 60 to 100 beats/minutes.
+    </div>
+
+    <br />
+
+    <div>
+      <strong><label for='comment'>Notes: </label></strong>
+      <% @reading.comments.each do |comment| %>
+        <input type="text" name="content" value="<%= comment.content %>">
+      <% end %>    </div>
+
+    <br />
+
+  <div>
+    <input type="submit" value="Update">
+  </div>
 </form>
+
+<br />
