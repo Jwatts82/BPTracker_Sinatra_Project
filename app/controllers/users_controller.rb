@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   get '/signup' do
-    logged_in? ? (redirect '/readings') : (erb :"/users/signup")
+    logged_in? ? (redirect '/readings') : (erb :'/users/signup')
   end
 
   post '/signup' do
