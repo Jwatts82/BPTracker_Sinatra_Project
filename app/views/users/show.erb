@@ -1,0 +1,65 @@
+<div align="right">
+  <a href="/logout"><input type="submit" value="Logout"></a>
+</div>
+
+<div>
+  <h2>
+    <%= @message if @message %>
+
+    <% if flash.has?(:message) %>
+      <%= flash[:message] %>
+    <% end %>
+  </h2>
+</div>
+
+<div>
+  <h1>
+    <%= @user.first_name[0] %>. <%= @user.last_name %> Profile
+  </h1>
+</div>
+
+<div>
+  <h3>
+    <label for="full_name">Full Name:</label>
+      <%= @user.first_name %> <%= @user.last_name %>
+  </h3>
+</div>
+
+<div>
+  <strong><label for="dob">DOB:</label></strong>
+    <%= @date %>
+</div>
+
+<br />
+
+<div>
+  <strong><label for="age">Age:</label></strong>
+    <%= @user.age %>
+</div>
+
+<br />
+
+<div>
+  <strong><label for="username">Username:</label></strong>
+    <%=@user.username %>
+</div>
+
+<br />
+
+<div>
+  <a href="/readings"><input type="submit" value="Readings"></a>
+</div>
+
+<div align="right">
+  <a href="/user/<%= @user.id %>/edit">
+  <input type="submit" value="Edit"></a>
+</div>
+
+<div>
+  <form action="/user/<%= @user.id %>/delete" method="post">
+    <input type="hidden" id="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete Profile">
+  </form>
+</div>
+
+<br  />

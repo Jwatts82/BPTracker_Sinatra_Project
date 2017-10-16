@@ -62,7 +62,17 @@ class UsersController < ApplicationController
   end
 
   get '/user/:id' do
-    binding.pry
+    if logged_in?
+      @user = current_user
+      @date = @user.user_friendly_date(@user.dob)
+
+      @message = session[:message]
+      session[:message] = nil
+
+      erb :'users/show'
+    else
+      redirect '/'
+    end
   end
 
   get '/logout' do
