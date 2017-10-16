@@ -71,13 +71,15 @@ class ReadingsController < ApplicationController
   end
 
   post '/readings/selection' do
-    @user = User.find(session[:u_id])
+    @user = current_user
 
-    readings =  Reading.where('reading_date_time BETWEEN ? AND ?',
-                              params[:start_date], params[:end_date])
+    readings =  Reading.where(
+      'reading_date_time BETWEEN ? AND ?',
+      params[:start_date], params[:end_date]
+    )
 
-    @u_readings = readings.select do |reading|
-      reading.person_id == @user.person_id
+    @user_readings = readings.select do |reading|
+      reading.user_id == @user.id
     end
 
     @start_date = params[:start_date].to_date.strftime("%m/%d/%Y")
