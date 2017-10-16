@@ -1,7 +1,7 @@
 class Reading < ActiveRecord::Base
   include InputCheck::InstanceMethods
 
-  belongs_to :person
+  belongs_to :user
   has_many :comment_readings, dependent: :destroy
   has_many :comments, through: :comment_readings
 
@@ -27,11 +27,15 @@ class Reading < ActiveRecord::Base
     date + ' ' + time
   end
 
-  def date
+  def cpu_date
     reading_date_time.strftime("%Y-%m-%d")
   end
 
-  def time
+  def cpu_time
     reading_date_time.strftime("%I:%M")
+  end
+
+  def user_friendly_time
+    reading_date_time.strftime("%I:%M%p")
   end
 end
