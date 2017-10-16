@@ -6,7 +6,7 @@ class CreateReadings < ActiveRecord::Migration
       t.integer :pulse
       t.datetime :reading_date_time
       t.string :category
-      t.references :person
+      t.references :user
 
       t.timestamps null: false
     end

@@ -3,7 +3,7 @@ class CreateCommentReadings < ActiveRecord::Migration
     create_table :comment_readings do |t|
       t.references :comment
       t.references :reading
-      
+
       t.timestamps null: false
     end
   end
