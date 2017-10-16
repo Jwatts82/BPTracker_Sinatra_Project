@@ -1,4 +1,4 @@
-module Input
+module CheckInputAndUserDate
   module InstanceMethods
 
     def emtpy_input?(hash)
