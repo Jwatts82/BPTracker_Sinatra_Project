@@ -27,8 +27,7 @@ class UsersController < ApplicationController
 
       session[:user_id] = user.id
 
-      # redirect '/readings'
-      redirect "/user/#{user.id}"
+      redirect '/readings'
     else
       flash[:message] = 'Username and password do not match. Please try again.'
 
@@ -138,7 +137,7 @@ class UsersController < ApplicationController
       redirect "/user/#{user.id}"
     end
   end
-  
+
   get '/logout' do
     session.clear if logged_in?
 
