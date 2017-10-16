@@ -115,17 +115,18 @@ class ReadingsController < ApplicationController
   get '/readings/:id/edit' do
     @reading = Reading.find(params[:id])
 
-    if @reading.person_id == current_user.person_id
-      @date = @reading.date
+    if @reading.user_id == current_user.id
+      @date = @reading.cpu_date
 
-      @time = @reading.time
+      @time = @reading.cpu_time
 
       erb :'/readings/edit'
     else
-      session[:message] = "You don't have permission to access this page."
+      session[:message] =
+        "You don't have permission to access this page."
 
-      redirect '/readings?error=You do not have permission to access ' \
-               'that page.'
+      redirect '/readings?error=You do not have ' \
+        'permission to access that page.'
     end
   end
 
