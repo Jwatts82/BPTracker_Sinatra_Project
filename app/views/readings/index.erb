@@ -1,28 +1,33 @@
-<!DOCTYPE html>
-<html>
-  <p align="right">
-    <a href="/logout"><input type="submit" value="Logout"></a>
-  </p>
+<div align="right">
+  <a href="/logout"><input type="submit" value="Logout"></a>
+</div>
 
-  <h1><%= @message if @message %></h1>
+<div>
+  <h2><%= @message if @message %></h2>
+</div>
 
+<div>
   <h1>Readings</h1>
+</div>
 
-    <p align="right">
-      <a href="/people/<%= current_user.person_id %>">
-        <input type="submit" value="Profile"></a>
-    </p>
+<div align="right">
+  <a href="/user/<%= current_user.id %>">
+  <input type="submit" value="Profile"></a>
+</div>
 
+<div>
+  <div>
     <form action="/readings/selection" method="post">
       <h3>Select dates</h3>
-      <label for="start_date">from: </label>
+      <strong><label for="start_date">from: </label></strong>
       <input type="date" name="start_date">
 
-      <label for="end_date"> to: </label>
+      <strong><label for="end_date"> to: </label></strong>
       <input type="date" name="end_date">
 
       <input type="submit" value="Search">
     </form>
+  </div>
 
   <% t = Time.now %>
   <h3><%= t.strftime("%A, %b %e, %Y") %></h3>
@@ -37,13 +42,12 @@
           border: 1px solid black;
       }
       th, td {
-        	padding: 5px;
+          padding: 5px;
       }
     </style>
   </head>
-  <body>
 
-    <table style="width:100%">
+  <table style="width:100%">
     <tr>
       <th>Date</th>
       <th>Time</th>
@@ -51,15 +55,16 @@
       <th>Category</th>
       <th>Notes</th>
     </tr>
-    <% @u_readings.each do |reading| %>
+    <% @readings.each do |reading| %>
       <tr>
-        <td><%= reading.reading_date_time.strftime("%m/%d/%Y") %></td>
-        <td><%= reading.reading_date_time.strftime("%I:%M %p") %></td>
+        <td><%= reading.user_friendly_date(reading.reading_date_time) %></td>
+        <td><%= reading.user_friendly_time %></td>
         <td><%= reading.systolic %>/<%= reading.diastolic %> mmHg</td>
         <td><%= reading.category %></td>
         <% reading.comments.each do |comment| %>
           <td><%=  comment.content %></td>
         <% end %>
+
         <td>
           <a href="/readings/<%= reading.id %>/edit">
             <input type="submit" value="Edit"></a>
@@ -72,50 +77,54 @@
       </tr>
     <% end %>
   </table>
+</div>
 
-    <br>
+<br />
 
-    <a href="/readings/new"><input type="submit" value="Add Reading"></a>
-    <a href="/comments"><input type="submit" value="Comments"></a>
+<div>
+  <a href="/readings/new"><input type="submit" value="Add Reading"></a>
+  <a href="/comments"><input type="submit" value="Comments"></a>
+</div>
 
-    <br>
-    <br>
-    <br>
+<br  />
+<br  />
 
-    <table style="width:25%">
-      <tr>
-        <th>Category Abbreviations</th>
-      </tr>
+<div>
+  <table style="width:25%">
+    <tr>
+      <th>Category Abbreviations</th>
+    </tr>
 
-      <tr>
-        <td>L</td>
-        <td>Low</td>
-      </tr>
+    <tr>
+      <td>L</td>
+      <td>Low</td>
+    </tr>
 
-       <tr>
-        <td>N</td>
-        <td>Normal</td>
-      </tr>
+     <tr>
+      <td>N</td>
+      <td>Normal</td>
+    </tr>
 
-      <tr>
-        <td>P-HBP</td>
-        <td>Prehypertension</td>
-      </tr>
+    <tr>
+      <td>P-HBP</td>
+      <td>Prehypertension</td>
+    </tr>
 
-      <tr>
-        <td>HBP-1</td>
-        <td>Hypertension Stage 1</td>
-      </tr>
+    <tr>
+      <td>HBP-1</td>
+      <td>Hypertension Stage 1</td>
+    </tr>
 
-      <tr>
-        <td>HBP-2</td>
-        <td>Hypertension Stage 2</td>
-      </tr>
-    </table>
+    <tr>
+      <td>HBP-2</td>
+      <td>Hypertension Stage 2</td>
+    </tr>
+  </table>
 
-    <p>* "HBP" stands for High Blood Pressure or  Hypertension</p>
+  <p>* "HBP" stands for High Blood Pressure or  Hypertension</p>
 
-    <p>These categories are based from the American Heart Association Blood
-       Pressure Readings Chart.</p>
-  </body>
-</html>
+  <p>These categories are based from the American Heart Association Blood
+     Pressure Readings Chart.</p>
+</div>
+
+<br  />
