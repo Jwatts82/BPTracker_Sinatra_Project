@@ -1,6 +1,6 @@
 [X] Build an MVC Sinatra Application.
       Completion Explanation:
-        - M: User, Person, Reading, Comment, Comment_Reading
+        - M: User, Reading, Comment, Comment_Reading
         - V: Users, People, Readings, Comments
         - C: UsersController, PeopleController, ReadingsController,
               CommentsController
@@ -9,9 +9,8 @@
 [X] Use ActiveRecord with Sinatra.
       Completion Explanation:
         Relationships:
-          - Person has many users, readings and comments through readings
-          - User belongs to person
-          - Reading belongs to person and has many comment_readings which
+          - User has_many readings
+          - Reading belongs to user and has many comment_readings which
               allows it to have many comments
           - Comment has many comment_readings which allows it to have many
               readings and people through readings
@@ -20,7 +19,7 @@
 
 [X] Use Multiple Models.
       Completion Explanation:
-      - Models: User, Person, Reading, Comment, Comment_Reading
+      - Models: User, Reading, Comment, Comment_Reading
 
 [X] Use at least one has_many relationship
       Completion Explanation:

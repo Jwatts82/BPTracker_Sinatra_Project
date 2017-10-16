@@ -8,6 +8,5 @@ use Rack::MethodOverride
 use CommentsController
 use ReadingsController
 use UsersController
-use PeopleController
 
 run ApplicationController
