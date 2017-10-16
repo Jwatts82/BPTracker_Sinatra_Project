@@ -69,7 +69,15 @@ class UsersController < ApplicationController
       @message = session[:message]
       session[:message] = nil
 
-      erb :'users/show'
+      if @user.id == params[:id].to_i
+        erb :'users/show'
+      else
+        session[:message] = "You don't have permission to access this profile."
+
+        redirect "/user/#{@user.id}?error=You do not have " \
+          "permission to access that profile."
+      end
+
     else
       redirect '/'
     end
