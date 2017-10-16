@@ -39,6 +39,7 @@
       <th>Time</th>
       <th>Pressure</th>
       <th>Category</th>
+      <th>Pulse</th>
       <th>Notes</th>
     </tr>
 
@@ -47,6 +48,7 @@
       <td><%= @time %></td>
       <td><%= @reading.systolic %>/<%= @reading.diastolic %> mmHg</td>
       <td><%= @reading.category %></td>
+      <td><%= @reading.pulse %></td>
       <% @reading.comments.each do |comment| %>
         <td><%= comment.content %></td>
       <% end %>
