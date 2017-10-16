@@ -96,6 +96,34 @@ class UsersController < ApplicationController
     end
   end
 
+  post '/user/:id' do
+    @user = current_user
+
+    v = params[:user].select {|k,v| v if k != 'password' }
+    if !@user.emtpy_input?(v)
+      @user.update(params[:user])
+      @user.age = @user.age_calculator(params[:user][:dob].to_date)
+      @user.save
+
+      flash[:message] = "Your edit was successful!"
+
+      @date = @user.user_friendly_date(@user.dob)
+
+      erb :'users/show'
+    else
+      flash[:message] = 'Some required information is missing or incomplete.' \
+        'Please correct your entries and try again.'
+
+      @user.first_name = params[:user][:first_name]
+      @user.last_name = params[:user][:last_name]
+      @user.dob = params[:user][:dob]
+      @user.username = params[:user][:username]
+      @user.password = params[:user][:password]
+
+      erb :'users/edit'
+    end
+  end
+
   get '/logout' do
     session.clear if logged_in?
 
