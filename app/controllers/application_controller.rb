@@ -11,7 +11,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    @profile_delete_msg = session[:message]
+    @message = session[:message]
     session[:message] = nil
 
     erb :welcome
