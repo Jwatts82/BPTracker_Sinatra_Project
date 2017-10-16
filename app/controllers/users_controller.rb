@@ -27,12 +27,21 @@ class UsersController < ApplicationController
 
       session[:user_id] = user.id
 
-      redirect '/readings'
+      # redirect '/readings'
+      redirect "/user/#{user.id}"
     else
       flash[:message] = 'Username and password do not match. Please try again.'
 
       erb :'users/login'
     end
+  end
+
+  get '/user/new' do
+    logged_in? ? (erb :'/users/new') : (redirect '/')
+  end
+
+  post '/user' do
+    binding.pry
   end
 
   get '/logout' do
