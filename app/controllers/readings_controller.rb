@@ -17,8 +17,57 @@ class ReadingsController < ApplicationController
   end
 
   post "/readings" do
-    binding.pry
-    
+    user = current_user
+
+    @date = params[:date]
+    @time = params[:time]
+    @systolic = params[:systolic]
+    @diastolic = params[:diastolic]
+    @pulse = params[:pulse]
+    @comment = params[:comment]
+
+    reading = Reading.new(params[:reading])
+
+    v = params.select {|k,v| v unless k == 'content' }
+    if !reading.emtpy_input?(v) &&
+       reading.category_selector(
+        params[:systolic],
+        params[:diastolic]
+      )
+      reading.systolic = params[:systolic]
+      reading.diastolic = params[:diastolic]
+      reading.pulse = params[:pulse]
+      reading.user_id = user.id
+
+      datetime = reading.datetime_sql_insert(
+        params[:date],
+        params[:time]
+      )
+      reading.reading_date_time = datetime
+
+      reading.category = reading.category_selector(
+        params[:systolic],
+        params[:diastolic]
+      )
+
+      params[:content].empty? ?
+        params[:content] = 'no comment' :
+        params[:content]
+      comment = Comment.create(
+        content: params[:content]
+      )
+      reading.comments << comment
+      reading.save
+
+      redirect "/readings/#{reading.id}"
+    else
+      flash[:message] =
+        'Some required information is missing ' \
+        'or your BP reading is not possible ' \
+        'Please review your input.'
+
+       erb :'/readings/new'
+    end
   end
 
   post '/readings/selection' do
@@ -48,14 +97,7 @@ class ReadingsController < ApplicationController
       @message = session[:message]
       session[:message] = nil
 
-      if @reading.person_id == current_user.person_id
-        erb :'/readings/show'
-      else
-        session[:message] = "You don't have permission to access this reading."
-
-        redirect '/readings?error=You do not have permission to access ' \
-                 'that reading.'
-      end
+      erb :'/readings/show'
     else
       redirect '/'
     end
