@@ -124,6 +124,21 @@ class UsersController < ApplicationController
     end
   end
 
+  delete '/user/:id/delete' do
+    @user = current_user
+
+    if @user.id == params[:id].to_i
+      @user.destroy
+      session.clear
+
+      session[:message] = 'Your account has been deleted'
+
+      redirect '/'
+    else
+      redirect "/user/#{user.id}"
+    end
+  end
+  
   get '/logout' do
     session.clear if logged_in?
 
