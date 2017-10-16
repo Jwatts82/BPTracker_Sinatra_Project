@@ -83,6 +83,19 @@ class UsersController < ApplicationController
     end
   end
 
+  get '/user/:id/edit' do
+    @user = current_user
+
+    if @user.id == params[:id].to_i
+      erb :'users/edit'
+    else
+      session[:message] = "You don't have permission to access that page."
+
+      redirect "/user/#{@user.id}?error=You do not have " \
+        "permission to access that page."
+    end
+  end
+
   get '/logout' do
     session.clear if logged_in?
 
