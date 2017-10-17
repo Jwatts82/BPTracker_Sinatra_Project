@@ -1,14 +1,12 @@
 <div>
-  <h1>Add Profile Information</h1>
-</div>
-
-<div>
   <% if flash.has?(:message) %>
     <h2><%= flash[:message] %></h2>
   <% end %>
 </div>
 
-<br  />
+<div>
+  <h1>Add Profile Information</h1>
+</div>
 
 <div>
   <form action='/users' method='post'>

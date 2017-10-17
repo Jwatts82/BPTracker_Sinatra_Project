@@ -15,7 +15,6 @@ class ReadingsController < ApplicationController
   end
 
   post "/readings" do
-    user = current_user
     @date = params[:date]
     @time = params[:time]
     @systolic = params[:systolic]
@@ -32,7 +31,7 @@ class ReadingsController < ApplicationController
       reading.systolic = params[:systolic]
       reading.diastolic = params[:diastolic]
       reading.pulse = params[:pulse]
-      reading.user_id = user.id
+      reading.user_id = current_user.id
       datetime = reading.datetime_sql_insert(
         params[:date],
         params[:time]
