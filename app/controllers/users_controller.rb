@@ -35,12 +35,13 @@ class UsersController < ApplicationController
   end
 
   post '/users' do
-    user = current_user
-    if !user.emtpy_input?(params[:user])
-      user.update(params[:user])
-      user.age = user.age_calculator(params[:user][:dob].to_date)
-      user.save
-      redirect "/users/#{user.id}"
+    if !current_user.emtpy_input?(params[:user])
+      current_user.update(params[:user])
+      current_user.age = current_user.age_calculator(
+        params[:user][:dob].to_date
+      )
+      current_user.save
+      redirect "/users/#{current_user.id}"
     else
       flash[:message] = 'Some required information is missing or incomplete.' \
         ' Please correct your entries and try again.'
@@ -53,15 +54,14 @@ class UsersController < ApplicationController
 
   get '/users/:id' do
     if logged_in?
-      @user = current_user
-      @date = @user.user_friendly_date(@user.dob)
+      @date = current_user.user_friendly_date(current_user.dob)
       @message = session[:message]
       session[:message] = nil
-      if @user.id == params[:id].to_i
+      if current_user.id == params[:id].to_i
         erb :'users/show'
       else
         session[:message] = "You don't have permission to access this profile."
-        redirect "/users/#{@user.id}?error=You do not have " \
+        redirect "/users/#{current_user.id}?error=You do not have " \
           "permission to access that profile."
       end
     else
@@ -70,47 +70,46 @@ class UsersController < ApplicationController
   end
 
   get '/users/:id/edit' do
-    @user = current_user
-    if @user.id == params[:id].to_i
+    if current_user.id == params[:id].to_i
       erb :'users/edit'
     else
       session[:message] = "You don't have permission to access that page."
-      redirect "/users/#{@user.id}?error=You do not have " \
+      redirect "/users/#{current_user.id}?error=You do not have " \
         "permission to access that page."
     end
   end
 
   post '/users/:id' do
-    @user = current_user
     v = params[:user].select {|k,v| v if k != 'password' }
-    if !@user.emtpy_input?(v)
-      @user.update(params[:user])
-      @user.age = @user.age_calculator(params[:user][:dob].to_date)
-      @user.save
+    if !current_user.emtpy_input?(v)
+      current_user.update(params[:user])
+      current_user.age = current_user.age_calculator(
+        params[:user][:dob].to_date
+      )
+      current_user.save
       flash[:message] = "Your edit was successful!"
-      @date = @user.user_friendly_date(@user.dob)
+      @date = current_user.user_friendly_date(current_user.dob)
       erb :'users/show'
     else
       flash[:message] = 'Some required information is missing or incomplete.' \
         'Please correct your entries and try again.'
-      @user.first_name = params[:user][:first_name]
-      @user.last_name = params[:user][:last_name]
-      @user.dob = params[:user][:dob]
-      @user.username = params[:user][:username]
-      @user.password = params[:user][:password]
+      current_user.first_name = params[:user][:first_name]
+      current_user.last_name = params[:user][:last_name]
+      current_user.dob = params[:user][:dob]
+      current_user.username = params[:user][:username]
+      current_user.password = params[:user][:password]
       erb :'users/edit'
     end
   end
 
   delete '/users/:id/delete' do
-    @user = current_user
-    if @user.id == params[:id].to_i
-      @user.destroy
+    if current_user.id == params[:id].to_i
+      current_user.destroy
       session.clear
       session[:message] = 'Your account has been deleted'
       redirect '/'
     else
-      redirect "/users/#{user.id}"
+      redirect "/users/#{current_user.id}"
     end
   end
 

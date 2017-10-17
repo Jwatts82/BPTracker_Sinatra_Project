@@ -8,43 +8,47 @@
   <% end %>
 </div>
 
-<br />
-
 <div>
-  <h1>Edit <%= @user.first_name[0] %>. <%= @user.last_name %> Profile</h1>
+  <h1>
+    Edit <%= current_user.first_name[0] %>. <%= current_user.last_name %> Profile
+  </h1>
 
-  <form action='/users/<%= @user.id %> ' method='post'>
+  <form action='/users/<%= current_user.id %> ' method='post'>
     <div>
       <strong><label for='first_name'>First Name: </label></strong>
-        <input type="text" name="user[first_name]" value="<%= @user.first_name %>">
+        <input type="text" name="user[first_name]"
+        value="<%= current_user.first_name %>">
     </div>
 
     <br />
 
     <div>
       <strong><label for='last_name'>Last Name: </label></strong>
-        <input type="text" name="user[last_name]" value="<%= @user.last_name %>">
+        <input type="text" name="user[last_name]"
+        value="<%= current_user.last_name %>">
     </div>
 
     <br  />
 
     <div>
       <strong><label for='dob'>Date of Birth: </label></strong>
-        <input type="date" name="user[dob]" value="<%= @user.dob %>">
+        <input type="date" name="user[dob]" value="<%= current_user.dob %>">
     </div>
 
     <br  />
 
     <div>
       <strong><label for="username">Username:</label>  </strong>
-        <input type="text" name="user[username]" value="<%= @user.username %>">
+        <input type="text" name="user[username]"
+        value="<%= current_user.username %>">
     </div>
 
     <br />
 
     <div>
       <strong><label for="password">Password:</label></strong>
-        <input type="password" name="user[password]" value="<%= @user.password %>">
+        <input type="password" name="user[password]"
+        value="<%= current_user.password %>">
     </div>
 
     <br />

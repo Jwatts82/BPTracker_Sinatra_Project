@@ -14,14 +14,14 @@
 
 <div>
   <h1>
-    <%= @user.first_name[0] %>. <%= @user.last_name %> Profile
+    <%= current_user.first_name[0] %>. <%= current_user.last_name %> Profile
   </h1>
 </div>
 
 <div>
   <h3>
     <label for="full_name">Full Name:</label>
-      <%= @user.first_name %> <%= @user.last_name %>
+      <%= current_user.first_name %> <%= current_user.last_name %>
   </h3>
 </div>
 
@@ -34,14 +34,14 @@
 
 <div>
   <strong><label for="age">Age:</label></strong>
-    <%= @user.age %>
+    <%= current_user.age %>
 </div>
 
 <br />
 
 <div>
   <strong><label for="username">Username:</label></strong>
-    <%=@user.username %>
+    <%=current_user.username %>
 </div>
 
 <br />
@@ -51,12 +51,12 @@
 </div>
 
 <div align="right">
-  <a href="/users/<%= @user.id %>/edit">
+  <a href="/users/<%= current_user.id %>/edit">
   <input type="submit" value="Edit"></a>
 </div>
 
 <div>
-  <form action="/users/<%= @user.id %>/delete" method="post">
+  <form action="/users/<%= current_user.id %>/delete" method="post">
     <input type="hidden" id="hidden" name="_method" value="delete">
     <input type="submit" value="Delete Profile">
   </form>
