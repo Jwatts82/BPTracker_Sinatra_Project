@@ -9,12 +9,14 @@ To use this app, just clone this [repo](https://github.com/NickisKnowledge/BPTra
 
 And then execute:
 
-    $ bundle
+$ `bundle`
 
 ## Usage
 
-Step 1) Run: `rake db:migrate` after cloning the repository. <br />
-Step 2) Run: `shotgun`
+After cloning the repository and running bundle:
+Step 1) Run: `rake db:migrate` <br />
+Step 2) Run: `rake db:seed` <br />
+Step 3) Run: `shotgun`
 
 ## Contributing
 
